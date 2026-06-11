@@ -1,6 +1,5 @@
 package com.myorganisation.gurukul;
 
-import com.myorganisation.gurukul.controller.Student;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
