@@ -8,6 +8,7 @@ import com.myorganisation.gurukul.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -44,12 +45,38 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto getStudent(Long id) {
-        return null;
+        Student student = studentRepository.getStudentMap().get(id);
+        StudentResponseDto studentResponseDto = new StudentResponseDto();
+        if(student != null) {
+            studentResponseDto.setId(student.getId());
+            studentResponseDto.setName(student.getName());
+            studentResponseDto.setCourse(student.getCourse());
+            studentResponseDto.setPhone(student.getPhone());
+            studentResponseDto.setMail(student.getMail());
+            studentResponseDto.setGender(student.getGender());
+        }
+
+        return studentResponseDto;
     }
 
     @Override
     public List<StudentResponseDto> getAllStudents() {
-        return List.of();
+       List<Student> studentList = new LinkedList<>(studentRepository.getStudentMap().values());
+       List<StudentResponseDto> studentResponseDtoList = new LinkedList<>();
+
+       for(Student student : studentList) {
+           StudentResponseDto studentResponseDto = new StudentResponseDto();
+           studentResponseDto.setId(student.getId());
+           studentResponseDto.setName(student.getName());
+           studentResponseDto.setCourse(student.getCourse());
+           studentResponseDto.setPhone(student.getPhone());
+           studentResponseDto.setMail(student.getMail());
+           studentResponseDto.setGender(student.getGender());
+
+           studentResponseDtoList.add(studentResponseDto);
+       }
+
+       return studentResponseDtoList;
     }
 
     @Override

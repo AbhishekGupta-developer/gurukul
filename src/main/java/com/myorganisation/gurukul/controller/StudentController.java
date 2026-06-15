@@ -6,10 +6,9 @@ import com.myorganisation.gurukul.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
@@ -20,5 +19,15 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<StudentResponseDto> registerStudent(@RequestBody StudentRequestDto studentRequestDto) {
         return new ResponseEntity<>(studentService.registerStudent(studentRequestDto), HttpStatusCode.valueOf(201));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentResponseDto> getStudent(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.getStudent(id), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatusCode.valueOf(200));
     }
 }
