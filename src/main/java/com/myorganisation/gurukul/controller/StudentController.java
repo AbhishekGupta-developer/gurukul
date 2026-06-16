@@ -1,6 +1,7 @@
 package com.myorganisation.gurukul.controller;
 
 import com.myorganisation.gurukul.dto.request.StudentRequestDto;
+import com.myorganisation.gurukul.dto.response.GenericResponseDto;
 import com.myorganisation.gurukul.dto.response.StudentResponseDto;
 import com.myorganisation.gurukul.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,15 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
         return new ResponseEntity<>(studentService.getAllStudents(), HttpStatusCode.valueOf(200));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long id, @RequestBody StudentRequestDto studentRequestDto) {
+        return new ResponseEntity<>(studentService.updateStudent(id, studentRequestDto), HttpStatusCode.valueOf(200));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<GenericResponseDto> removeStudent(@RequestParam Long id) {
+        return new ResponseEntity<>(studentService.removeStudent(id), HttpStatusCode.valueOf(200));
     }
 }

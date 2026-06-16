@@ -19,44 +19,20 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto registerStudent(StudentRequestDto studentRequestDto) {
-        Student student = new Student();
+        Student student = mapStudentRequestDtoToStudent(new Student(), studentRequestDto);
         Long id = studentRepository.generateId();
         student.setId(id);
-        student.setName(studentRequestDto.getName());
-        student.setCourse(studentRequestDto.getCourse());
-        student.setPhone(studentRequestDto.getPhone());
-        student.setMail(studentRequestDto.getMail());
-        student.setGender(studentRequestDto.getGender());
-
         studentRepository.getStudentMap().put(id, student);
-
-        Student registeredStudent = studentRepository.getStudentMap().get(id);
-
-        StudentResponseDto studentResponseDto = new StudentResponseDto();
-        studentResponseDto.setId(registeredStudent.getId());
-        studentResponseDto.setName(registeredStudent.getName());
-        studentResponseDto.setCourse(registeredStudent.getCourse());
-        studentResponseDto.setPhone(registeredStudent.getPhone());
-        studentResponseDto.setMail(registeredStudent.getMail());
-        studentResponseDto.setGender(registeredStudent.getGender());
-
-        return studentResponseDto;
+        return mapStudentToStudentResponseDto(studentRepository.getStudentMap().get(id));
     }
 
     @Override
     public StudentResponseDto getStudent(Long id) {
         Student student = studentRepository.getStudentMap().get(id);
-        StudentResponseDto studentResponseDto = new StudentResponseDto();
         if(student != null) {
-            studentResponseDto.setId(student.getId());
-            studentResponseDto.setName(student.getName());
-            studentResponseDto.setCourse(student.getCourse());
-            studentResponseDto.setPhone(student.getPhone());
-            studentResponseDto.setMail(student.getMail());
-            studentResponseDto.setGender(student.getGender());
+            return mapStudentToStudentResponseDto(student);
         }
-
-        return studentResponseDto;
+        return null;
     }
 
     @Override
@@ -65,14 +41,7 @@ public class StudentServiceImpl implements StudentService {
        List<StudentResponseDto> studentResponseDtoList = new LinkedList<>();
 
        for(Student student : studentList) {
-           StudentResponseDto studentResponseDto = new StudentResponseDto();
-           studentResponseDto.setId(student.getId());
-           studentResponseDto.setName(student.getName());
-           studentResponseDto.setCourse(student.getCourse());
-           studentResponseDto.setPhone(student.getPhone());
-           studentResponseDto.setMail(student.getMail());
-           studentResponseDto.setGender(student.getGender());
-
+           StudentResponseDto studentResponseDto = mapStudentToStudentResponseDto(student);
            studentResponseDtoList.add(studentResponseDto);
        }
 
@@ -81,11 +50,57 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto updateStudent(Long id, StudentRequestDto studentRequestDto) {
+        Student student = studentRepository.getStudentMap().get(id);
+        if(student != null) {
+            student = mapStudentRequestDtoToStudent(student, studentRequestDto);
+            studentRepository.getStudentMap().put(id, student);
+            return mapStudentToStudentResponseDto(studentRepository.getStudentMap().get(id));
+        }
         return null;
     }
 
     @Override
     public GenericResponseDto removeStudent(Long id) {
-        return null;
+        Student student = studentRepository.getStudentMap().get(id);
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
+
+        if(student != null) {
+            String name = student.getName();
+            studentRepository.getStudentMap().remove(id);
+            genericResponseDto.setSuccess(true);
+            genericResponseDto.setMessage("Student name: " + name + " (" + id + ") has been removed!");
+        } else {
+            genericResponseDto.setSuccess(false);
+            genericResponseDto.setMessage("Student ID: " + id + " doesn't exist");
+        }
+
+        return genericResponseDto;
+    }
+
+    // helper methods
+
+    // Map StudentRequestDto to Student
+    private Student mapStudentRequestDtoToStudent(Student student, StudentRequestDto studentRequestDto) {
+        student.setName(studentRequestDto.getName());
+        student.setCourse(studentRequestDto.getCourse());
+        student.setPhone(studentRequestDto.getPhone());
+        student.setMail(studentRequestDto.getMail());
+        student.setGender(studentRequestDto.getGender());
+
+        return student;
+    }
+
+    // Map Student to StudentResponseDto
+    private StudentResponseDto mapStudentToStudentResponseDto(Student student) {
+        StudentResponseDto studentResponseDto = new StudentResponseDto();
+
+        studentResponseDto.setId(student.getId());
+        studentResponseDto.setName(student.getName());
+        studentResponseDto.setCourse(student.getCourse());
+        studentResponseDto.setPhone(student.getPhone());
+        studentResponseDto.setMail(student.getMail());
+        studentResponseDto.setGender(student.getGender());
+
+        return studentResponseDto;
     }
 }
