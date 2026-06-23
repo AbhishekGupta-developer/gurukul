@@ -19,68 +19,60 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto registerStudent(StudentRequestDto studentRequestDto) {
-//        Student student = mapStudentRequestDtoToStudent(new Student(), studentRequestDto);
-//        Long id = studentRepository.generateId();
-//        student.setId(id);
-//        studentRepository.getStudentMap().put(id, student);
-//        return mapStudentToStudentResponseDto(studentRepository.getStudentMap().get(id));
-
-        return null;
+        Student student = mapStudentRequestDtoToStudent(new Student(), studentRequestDto);
+        studentRepository.save(student);
+        return mapStudentToStudentResponseDto(student);
     }
 
     @Override
     public StudentResponseDto getStudent(Long id) {
-//        Student student = studentRepository.getStudentMap().get(id);
-//        if(student != null) {
-//            return mapStudentToStudentResponseDto(student);
-//        }
+        Student student = studentRepository.findById(id).orElse(null);
+        if(student != null) {
+            return mapStudentToStudentResponseDto(student);
+        }
         return null;
     }
 
     @Override
     public List<StudentResponseDto> getAllStudents() {
-//       List<Student> studentList = new LinkedList<>(studentRepository.getStudentMap().values());
-//       List<StudentResponseDto> studentResponseDtoList = new LinkedList<>();
-//
-//       for(Student student : studentList) {
-//           StudentResponseDto studentResponseDto = mapStudentToStudentResponseDto(student);
-//           studentResponseDtoList.add(studentResponseDto);
-//       }
-//
-//       return studentResponseDtoList;
+       List<Student> studentList = studentRepository.findAll();
+       List<StudentResponseDto> studentResponseDtoList = new LinkedList<>();
 
-        return null;
+       for(Student student : studentList) {
+           StudentResponseDto studentResponseDto = mapStudentToStudentResponseDto(student);
+           studentResponseDtoList.add(studentResponseDto);
+       }
+
+       return studentResponseDtoList;
     }
 
     @Override
     public StudentResponseDto updateStudent(Long id, StudentRequestDto studentRequestDto) {
-//        Student student = studentRepository.getStudentMap().get(id);
-//        if(student != null) {
-//            student = mapStudentRequestDtoToStudent(student, studentRequestDto);
-//            studentRepository.getStudentMap().put(id, student);
-//            return mapStudentToStudentResponseDto(studentRepository.getStudentMap().get(id));
-//        }
+        Student student = studentRepository.findById(id).orElse(null);
+        if(student != null) {
+            mapStudentRequestDtoToStudent(student, studentRequestDto);
+            studentRepository.save(student);
+            return mapStudentToStudentResponseDto(student);
+        }
         return null;
     }
 
     @Override
     public GenericResponseDto removeStudent(Long id) {
-//        Student student = studentRepository.getStudentMap().get(id);
-//        GenericResponseDto genericResponseDto = new GenericResponseDto();
-//
-//        if(student != null) {
-//            String name = student.getName();
-//            studentRepository.getStudentMap().remove(id);
-//            genericResponseDto.setSuccess(true);
-//            genericResponseDto.setMessage("Student name: " + name + " (" + id + ") has been removed!");
-//        } else {
-//            genericResponseDto.setSuccess(false);
-//            genericResponseDto.setMessage("Student ID: " + id + " doesn't exist");
-//        }
-//
-//        return genericResponseDto;
+        Student student = studentRepository.findById(id).orElse(null);
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
 
-        return null;
+        if(student != null) {
+            String name = student.getName();
+            studentRepository.deleteById(id);
+            genericResponseDto.setSuccess(true);
+            genericResponseDto.setMessage("Student name: " + name + " (" + id + ") has been removed!");
+        } else {
+            genericResponseDto.setSuccess(false);
+            genericResponseDto.setMessage("Student ID: " + id + " doesn't exist");
+        }
+
+        return genericResponseDto;
     }
 
     // helper methods
