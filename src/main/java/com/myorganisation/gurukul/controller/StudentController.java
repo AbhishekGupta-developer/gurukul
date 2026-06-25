@@ -41,4 +41,9 @@ public class StudentController {
     public ResponseEntity<GenericResponseDto> removeStudent(@RequestParam Long id) {
         return new ResponseEntity<>(studentService.removeStudent(id), HttpStatusCode.valueOf(200));
     }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<GenericResponseDto> removeAllStudents() {
+        return new ResponseEntity<>(studentService.removeAllStudents(), HttpStatusCode.valueOf(200));
+    }
 }

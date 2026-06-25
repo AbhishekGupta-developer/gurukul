@@ -75,6 +75,17 @@ public class StudentServiceImpl implements StudentService {
         return genericResponseDto;
     }
 
+    @Override
+    public GenericResponseDto removeAllStudents() {
+        studentRepository.deleteAll();
+
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
+        genericResponseDto.setSuccess(true);
+        genericResponseDto.setMessage("All students have been removed!");
+
+        return genericResponseDto;
+    }
+
     // helper methods
 
     // Map StudentRequestDto to Student
