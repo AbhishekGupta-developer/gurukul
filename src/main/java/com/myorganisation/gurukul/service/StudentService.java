@@ -14,4 +14,8 @@ public interface StudentService {
     GenericResponseDto removeStudent(Long id);
 
     GenericResponseDto  removeAllStudents();
+
+    List<StudentResponseDto> searchStudentsByCourse(String course);
+    List<StudentResponseDto> searchStudentsByCourseContaining(String course);
+    List<StudentResponseDto> searchStudentsByNameContainingAndCourseContaining(String name, String course);
 }

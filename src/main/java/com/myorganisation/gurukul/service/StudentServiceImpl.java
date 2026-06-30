@@ -36,14 +36,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentResponseDto> getAllStudents() {
        List<Student> studentList = studentRepository.findAll();
-       List<StudentResponseDto> studentResponseDtoList = new LinkedList<>();
-
-       for(Student student : studentList) {
-           StudentResponseDto studentResponseDto = mapStudentToStudentResponseDto(student);
-           studentResponseDtoList.add(studentResponseDto);
-       }
-
-       return studentResponseDtoList;
+       return mapStudentListToStudentResponseDtoList(studentList);
     }
 
     @Override
@@ -86,6 +79,24 @@ public class StudentServiceImpl implements StudentService {
         return genericResponseDto;
     }
 
+    @Override
+    public List<StudentResponseDto> searchStudentsByCourse(String course) {
+        List<Student> studentList = studentRepository.findByCourse(course);
+        return mapStudentListToStudentResponseDtoList(studentList);
+    }
+
+    @Override
+    public List<StudentResponseDto> searchStudentsByCourseContaining(String course) {
+        List<Student> studentList = studentRepository.findByCourseContaining(course);
+        return mapStudentListToStudentResponseDtoList(studentList);
+    }
+
+    @Override
+    public List<StudentResponseDto> searchStudentsByNameContainingAndCourseContaining(String name, String course) {
+        List<Student>  studentList = studentRepository.findByNameContainingAndCourseContaining(name, course);
+        return mapStudentListToStudentResponseDtoList(studentList);
+    }
+
     // helper methods
 
     // Map StudentRequestDto to Student
@@ -111,5 +122,17 @@ public class StudentServiceImpl implements StudentService {
         studentResponseDto.setGender(student.getGender());
 
         return studentResponseDto;
+    }
+
+    // Map Student List to StudentResponseDto List
+    private List<StudentResponseDto> mapStudentListToStudentResponseDtoList(List<Student> studentList) {
+        List<StudentResponseDto> studentResponseDtoList = new LinkedList<>();
+
+        for(Student student : studentList) {
+            StudentResponseDto studentResponseDto = mapStudentToStudentResponseDto(student);
+            studentResponseDtoList.add(studentResponseDto);
+        }
+
+        return studentResponseDtoList;
     }
 }

@@ -46,4 +46,20 @@ public class StudentController {
     public ResponseEntity<GenericResponseDto> removeAllStudents() {
         return new ResponseEntity<>(studentService.removeAllStudents(), HttpStatusCode.valueOf(200));
     }
+
+    @GetMapping("/search/course/{course}")
+    public ResponseEntity<List<StudentResponseDto>> searchStudentsByCourse(@PathVariable String course) {
+        return new ResponseEntity<>(studentService.searchStudentsByCourse(course), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/global/course/{course}")
+    public ResponseEntity<List<StudentResponseDto>> searchStudentsByCourseContaining(@PathVariable String course) {
+        return new ResponseEntity<>(studentService.searchStudentsByCourseContaining(course), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("search/global")
+    public ResponseEntity<List<StudentResponseDto>> searchStudentsByNameContainingAndCourseContaining(@RequestParam String name,  @RequestParam String course) {
+        return new ResponseEntity<>(studentService.searchStudentsByNameContainingAndCourseContaining(name, course), HttpStatusCode.valueOf(200));
+    }
+
 }
