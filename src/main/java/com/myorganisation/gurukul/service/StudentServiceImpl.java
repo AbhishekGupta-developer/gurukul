@@ -100,6 +100,13 @@ public class StudentServiceImpl implements StudentService {
         return mapStudentListToStudentResponseDtoList(studentList);
     }
 
+    @Override
+    public List<StudentResponseDto> searchStudentsByEmail(String email) {
+        List<Student> studentList = studentRepository.searchStudentsByEmailContaining(email);
+        return mapStudentListToStudentResponseDtoList(studentList);
+    }
+
+    
     // helper methods
 
     // Map StudentRequestDto to Student
