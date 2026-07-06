@@ -81,13 +81,16 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentResponseDto> searchStudentsByCourse(String course) {
-        List<Student> studentList = studentRepository.findByCourse(course);
+//        List<Student> studentList = studentRepository.findByCourse(course);
+        List<Student> studentList = studentRepository.searchStudentsByCourse(course);
+
         return mapStudentListToStudentResponseDtoList(studentList);
     }
 
     @Override
     public List<StudentResponseDto> searchStudentsByCourseContaining(String course) {
-        List<Student> studentList = studentRepository.findByCourseContaining(course);
+//        List<Student> studentList = studentRepository.findByCourseContaining(course);
+        List<Student> studentList = studentRepository.searchStudentsByCourseLike(course);
         return mapStudentListToStudentResponseDtoList(studentList);
     }
 
