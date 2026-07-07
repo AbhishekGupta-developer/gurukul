@@ -106,7 +106,14 @@ public class StudentServiceImpl implements StudentService {
         return mapStudentListToStudentResponseDtoList(studentList);
     }
 
-    
+    @Override
+    public List<StudentResponseDto> searchStudentsGlobally(String q) {
+        List<Student> studentList = studentRepository.searchStudentsGlobally(q);
+
+        return mapStudentListToStudentResponseDtoList(studentList);
+    }
+
+
     // helper methods
 
     // Map StudentRequestDto to Student
