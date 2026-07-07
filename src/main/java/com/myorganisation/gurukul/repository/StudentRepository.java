@@ -27,4 +27,16 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT s.* FROM students s WHERE s.mail LIKE %:email%", nativeQuery = true)
     List<Student> searchStudentsByEmailContaining(@Param("email") String email);
 
+    @Query(value =
+            """
+            SELECT s.* 
+            FROM students s 
+            WHERE CAST(s.id AS CHAR) LIKE %:q% 
+                OR s.course LIKE %:q% 
+                OR s.mail LIKE %:q% 
+                OR s.name LIKE %:q% 
+                OR s.phone LIKE %:q% 
+            """, nativeQuery = true)
+    List<Student> searchStudentsGlobally(@Param("q") String q);
+
 }
