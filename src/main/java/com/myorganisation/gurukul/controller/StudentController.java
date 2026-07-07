@@ -66,4 +66,11 @@ public class StudentController {
     public ResponseEntity<List<StudentResponseDto>> searchStudentsByEmailContaining(@RequestParam String email) {
         return new ResponseEntity<>(studentService.searchStudentsByEmail(email), HttpStatusCode.valueOf(200));
     }
+
+    @GetMapping("/complete/s")
+    public ResponseEntity<List<StudentResponseDto>> searchStudentsGlobally(@RequestParam String q) {
+        return new ResponseEntity<>(studentService.searchStudentsGlobally(q), HttpStatusCode.valueOf(200));
+    }
+
+
 }
