@@ -4,7 +4,9 @@ import com.myorganisation.gurukul.dto.request.StudentRequestDto;
 import com.myorganisation.gurukul.dto.response.GenericResponseDto;
 import com.myorganisation.gurukul.dto.response.StudentResponseDto;
 import com.myorganisation.gurukul.entity.Student;
+import com.myorganisation.gurukul.entity.Vehicle;
 import com.myorganisation.gurukul.repository.StudentRepository;
+import com.myorganisation.gurukul.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,27 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+//    @Autowired
+//    private VehicleRepository vehicleRepository;
+
     @Override
     public StudentResponseDto registerStudent(StudentRequestDto studentRequestDto) {
         Student student = mapStudentRequestDtoToStudent(new Student(), studentRequestDto);
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setRegistrationNumber("NOT REGISTERED YET");
+
+//        vehicleRepository.save(vehicle);
+
+        student.setVehicle(vehicle);
+        vehicle.setStudent(student);
+
         studentRepository.save(student);
+
+//        vehicle.setStudent(student);
+//        vehicleRepository.save(vehicle);
+
+
         return mapStudentToStudentResponseDto(student);
     }
 
@@ -121,7 +140,7 @@ public class StudentServiceImpl implements StudentService {
         student.setName(studentRequestDto.getName());
         student.setCourse(studentRequestDto.getCourse());
         student.setPhone(studentRequestDto.getPhone());
-        student.setMail(studentRequestDto.getMail());
+        student.setEmail(studentRequestDto.getEmail());
         student.setGender(studentRequestDto.getGender());
 
         return student;
@@ -135,8 +154,9 @@ public class StudentServiceImpl implements StudentService {
         studentResponseDto.setName(student.getName());
         studentResponseDto.setCourse(student.getCourse());
         studentResponseDto.setPhone(student.getPhone());
-        studentResponseDto.setMail(student.getMail());
+        studentResponseDto.setEmail(student.getEmail());
         studentResponseDto.setGender(student.getGender());
+        studentResponseDto.setVehicle(student.getVehicle());
 
         return studentResponseDto;
     }
