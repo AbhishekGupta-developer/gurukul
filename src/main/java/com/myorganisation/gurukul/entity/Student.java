@@ -14,8 +14,12 @@ public class Student {
 
     private String name;
     private String course;
+
+    @Column(unique = true)
     private String phone;
-    private String mail;
+
+    @Column(unique = true)
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
