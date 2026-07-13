@@ -23,4 +23,7 @@ public class Student {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Vehicle vehicle;
 }
