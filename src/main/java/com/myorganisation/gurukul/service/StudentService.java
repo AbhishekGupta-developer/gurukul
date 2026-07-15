@@ -3,6 +3,7 @@ package com.myorganisation.gurukul.service;
 import com.myorganisation.gurukul.dto.request.StudentRequestDto;
 import com.myorganisation.gurukul.dto.response.GenericResponseDto;
 import com.myorganisation.gurukul.dto.response.StudentResponseDto;
+import com.myorganisation.gurukul.entity.Student;
 
 import java.util.List;
 
@@ -23,5 +24,8 @@ public interface StudentService {
 
     List<StudentResponseDto> searchStudentsGlobally(String q);
 
+    Boolean studentExists(Long id);
+
+    Student getStudentEntity(Long id);
 
 }

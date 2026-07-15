@@ -3,6 +3,7 @@ package com.myorganisation.gurukul.service;
 import com.myorganisation.gurukul.dto.request.StudentRequestDto;
 import com.myorganisation.gurukul.dto.response.GenericResponseDto;
 import com.myorganisation.gurukul.dto.response.StudentResponseDto;
+import com.myorganisation.gurukul.entity.Account;
 import com.myorganisation.gurukul.entity.Student;
 import com.myorganisation.gurukul.entity.Vehicle;
 import com.myorganisation.gurukul.repository.StudentRepository;
@@ -26,13 +27,18 @@ public class StudentServiceImpl implements StudentService {
     public StudentResponseDto registerStudent(StudentRequestDto studentRequestDto) {
         Student student = mapStudentRequestDtoToStudent(new Student(), studentRequestDto);
 
-        Vehicle vehicle = new Vehicle();
-        vehicle.setRegistrationNumber("NOT REGISTERED YET");
+        Account account = new Account();
+        account.setStudent(student);
+
+        student.setAccount(account);
+
+//        Vehicle vehicle = new Vehicle();
+//        vehicle.setRegistrationNumber("NOT REGISTERED YET");
 
 //        vehicleRepository.save(vehicle);
 
-        student.setVehicle(vehicle);
-        vehicle.setStudent(student);
+//        student.setVehicle(vehicle);
+//        vehicle.setStudent(student);
 
         studentRepository.save(student);
 
@@ -130,6 +136,16 @@ public class StudentServiceImpl implements StudentService {
         List<Student> studentList = studentRepository.searchStudentsGlobally(q);
 
         return mapStudentListToStudentResponseDtoList(studentList);
+    }
+
+    @Override
+    public Boolean studentExists(Long id) {
+        return studentRepository.existsById(id);
+    }
+
+    @Override
+    public Student getStudentEntity(Long id) {
+        return studentRepository.findById(id).orElse(null);
     }
 
 
