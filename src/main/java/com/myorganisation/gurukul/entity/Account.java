@@ -1,11 +1,14 @@
 package com.myorganisation.gurukul.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
 @Entity
 @Table(name = "accounts")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
 
     @Id
@@ -15,6 +18,6 @@ public class Account {
     private Double total = 0D;
     private Double balance = 0D;
 
-    @OneToOne(mappedBy = "account")
+    @OneToOne(fetch = FetchType.LAZY)
     private Student student;
 }

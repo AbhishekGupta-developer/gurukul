@@ -3,11 +3,14 @@ package com.myorganisation.gurukul.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myorganisation.gurukul.enums.VehicleType;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
 @Entity
 @Table(name = "vehicles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +21,6 @@ public class Vehicle {
 
     private String registrationNumber;
 
-    @OneToOne(mappedBy = "vehicle")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 }

@@ -28,15 +28,11 @@ public class VehicleServiceImpl implements VehicleService {
             throw new RuntimeException("Student doesn't exist");
         }
 
-        if(student.getVehicle() != null) {
-            throw new RuntimeException("Vehicle already exists");
-        }
-
         Vehicle vehicle = new Vehicle();
         vehicle.setType(vehicleRequestDto.getType());
         vehicle.setRegistrationNumber(vehicleRequestDto.getRegistrationNumber());
         vehicle.setStudent(student);
-        student.setVehicle(vehicle);
+        student.getVehicles().add(vehicle);
 
         vehicleRepository.save(vehicle);
 

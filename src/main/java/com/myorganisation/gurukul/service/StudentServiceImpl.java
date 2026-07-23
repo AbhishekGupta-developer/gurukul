@@ -107,22 +107,30 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentResponseDto> searchStudentsByCourse(String course) {
 //        List<Student> studentList = studentRepository.findByCourse(course);
-        List<Student> studentList = studentRepository.searchStudentsByCourse(course);
 
-        return mapStudentListToStudentResponseDtoList(studentList);
+//        List<Student> studentList = studentRepository.searchStudentsByCourse(course);
+//
+//        return mapStudentListToStudentResponseDtoList(studentList);
+
+        return null;
     }
 
     @Override
     public List<StudentResponseDto> searchStudentsByCourseContaining(String course) {
 //        List<Student> studentList = studentRepository.findByCourseContaining(course);
-        List<Student> studentList = studentRepository.searchStudentsByCourseLike(course);
-        return mapStudentListToStudentResponseDtoList(studentList);
+
+//        List<Student> studentList = studentRepository.searchStudentsByCourseLike(course);
+//        return mapStudentListToStudentResponseDtoList(studentList);
+
+        return null;
     }
 
     @Override
     public List<StudentResponseDto> searchStudentsByNameContainingAndCourseContaining(String name, String course) {
-        List<Student>  studentList = studentRepository.findByNameContainingAndCourseContaining(name, course);
-        return mapStudentListToStudentResponseDtoList(studentList);
+//        List<Student>  studentList = studentRepository.findByNameContainingAndCourseContaining(name, course);
+//        return mapStudentListToStudentResponseDtoList(studentList);
+
+        return null;
     }
 
     @Override
@@ -133,9 +141,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentResponseDto> searchStudentsGlobally(String q) {
-        List<Student> studentList = studentRepository.searchStudentsGlobally(q);
-
-        return mapStudentListToStudentResponseDtoList(studentList);
+//        List<Student> studentList = studentRepository.searchStudentsGlobally(q);
+//
+//        return mapStudentListToStudentResponseDtoList(studentList);
+        return null;
     }
 
     @Override
@@ -154,7 +163,7 @@ public class StudentServiceImpl implements StudentService {
     // Map StudentRequestDto to Student
     private Student mapStudentRequestDtoToStudent(Student student, StudentRequestDto studentRequestDto) {
         student.setName(studentRequestDto.getName());
-        student.setCourse(studentRequestDto.getCourse());
+//        student.setCourse(studentRequestDto.getCourse());
         student.setPhone(studentRequestDto.getPhone());
         student.setEmail(studentRequestDto.getEmail());
         student.setGender(studentRequestDto.getGender());
@@ -168,11 +177,11 @@ public class StudentServiceImpl implements StudentService {
 
         studentResponseDto.setId(student.getId());
         studentResponseDto.setName(student.getName());
-        studentResponseDto.setCourse(student.getCourse());
+//        studentResponseDto.setCourse(student.getCourse());
         studentResponseDto.setPhone(student.getPhone());
         studentResponseDto.setEmail(student.getEmail());
         studentResponseDto.setGender(student.getGender());
-        studentResponseDto.setVehicle(student.getVehicle());
+//        studentResponseDto.setVehicle(student.getVehicle());
 
         return studentResponseDto;
     }
