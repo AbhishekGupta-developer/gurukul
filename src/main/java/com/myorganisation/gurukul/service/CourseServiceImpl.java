@@ -4,6 +4,10 @@ import com.myorganisation.gurukul.dto.response.CourseResponseDto;
 import com.myorganisation.gurukul.entity.Course;
 import com.myorganisation.gurukul.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +29,23 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return courseResponseDtoList;
+    }
+
+    @Override
+    public Page<CourseResponseDto> getCoursePage(int pageIndex, int size, String sortBy, String sortOrder) {
+
+        Sort sort = sortOrder.equalsIgnoreCase("DESC") ?
+                Sort.by(Sort.Direction.DESC, sortBy) :
+                Sort.by(Sort.Direction.ASC, sortBy);
+        Pageable pageable = PageRequest.of(pageIndex, size, sort);
+
+        Page<Course> coursePage = courseRepository.findAll(pageable);
+
+        Page<CourseResponseDto> courseResponseDtoPage = coursePage.map(
+                course -> mapCourseToCourseResponseDto(course)
+        );
+
+        return courseResponseDtoPage;
     }
 
 
