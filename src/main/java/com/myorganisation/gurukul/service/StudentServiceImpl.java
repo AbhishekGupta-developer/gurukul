@@ -8,6 +8,7 @@ import com.myorganisation.gurukul.entity.Student;
 import com.myorganisation.gurukul.entity.Vehicle;
 import com.myorganisation.gurukul.repository.StudentRepository;
 import com.myorganisation.gurukul.repository.VehicleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,11 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-//    @Autowired
-//    private VehicleRepository vehicleRepository;
+    @Autowired
+    private VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public StudentResponseDto registerStudent(StudentRequestDto studentRequestDto) {
         Student student = mapStudentRequestDtoToStudent(new Student(), studentRequestDto);
 
@@ -42,8 +44,17 @@ public class StudentServiceImpl implements StudentService {
 
         studentRepository.save(student);
 
-//        vehicle.setStudent(student);
-//        vehicleRepository.save(vehicle);
+        Vehicle vehicle = new Vehicle();
+
+        vehicle.setStudent(student);
+
+//        System.out.println(10/0);
+
+        vehicleRepository.save(vehicle);
+
+        student.getVehicles().add(vehicle);
+
+        studentRepository.save(student);
 
 
         return mapStudentToStudentResponseDto(student);
@@ -181,7 +192,7 @@ public class StudentServiceImpl implements StudentService {
         studentResponseDto.setPhone(student.getPhone());
         studentResponseDto.setEmail(student.getEmail());
         studentResponseDto.setGender(student.getGender());
-//        studentResponseDto.setVehicle(student.getVehicle());
+        studentResponseDto.setVehicles(student.getVehicles());
 
         return studentResponseDto;
     }

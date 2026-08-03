@@ -22,5 +22,6 @@ public class Vehicle {
     private String registrationNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Student student;
 }

@@ -4,6 +4,8 @@ import com.myorganisation.gurukul.entity.Vehicle;
 import com.myorganisation.gurukul.enums.Gender;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class StudentResponseDto {
     private Long id;
@@ -12,5 +14,5 @@ public class StudentResponseDto {
     private String phone;
     private String email;
     private Gender gender;
-    private Vehicle vehicle;
+    private Set<Vehicle> vehicles;
 }
