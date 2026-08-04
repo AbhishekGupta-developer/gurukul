@@ -6,6 +6,7 @@ import com.myorganisation.gurukul.dto.response.StudentResponseDto;
 import com.myorganisation.gurukul.entity.Account;
 import com.myorganisation.gurukul.entity.Student;
 import com.myorganisation.gurukul.entity.Vehicle;
+import com.myorganisation.gurukul.exception.StudentNotFoundException;
 import com.myorganisation.gurukul.repository.StudentRepository;
 import com.myorganisation.gurukul.repository.VehicleRepository;
 import jakarta.transaction.Transactional;
@@ -62,11 +63,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto getStudent(Long id) {
-        Student student = studentRepository.findById(id).orElse(null);
-        if(student != null) {
-            return mapStudentToStudentResponseDto(student);
-        }
-        return null;
+        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student id: " + id + " doesn't exist"));
+        return mapStudentToStudentResponseDto(student);
     }
 
     @Override

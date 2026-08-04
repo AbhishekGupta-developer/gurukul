@@ -2,6 +2,7 @@ package com.myorganisation.gurukul.service;
 
 import com.myorganisation.gurukul.dto.response.CourseResponseDto;
 import com.myorganisation.gurukul.entity.Course;
+import com.myorganisation.gurukul.exception.CourseNotFoundException;
 import com.myorganisation.gurukul.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseResponseDto> getAllCourseList() {
         List<Course> courseList = courseRepository.findAll();
+
+        if(courseList.isEmpty()){
+            throw new CourseNotFoundException("We haven't added any course yet! (कार्य प्रगति पर है)");
+        }
+
         List<CourseResponseDto> courseResponseDtoList = new ArrayList<>();
 
         for(Course c : courseList) {
