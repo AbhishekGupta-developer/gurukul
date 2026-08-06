@@ -8,10 +8,16 @@ import java.time.LocalDateTime;
 @Component
 public class NotificationJob {
 
-    @Scheduled(cron = "0 0 1 1-7 * SUN")
+    @Scheduled(cron = "0 18 14 1-7 * THU")
     public void sendNotification3() {
         System.out.println("Sending notification... Time: " + LocalDateTime.now());
     }
+
+
+//    @Scheduled(cron = "0 0 1 1-7 * THU")
+//    public void sendNotification3() {
+//        System.out.println("Sending notification... Time: " + LocalDateTime.now());
+//    }
 
     // every seconds
 //    @Scheduled(cron = "* * * * * ?")
