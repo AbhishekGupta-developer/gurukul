@@ -10,4 +10,5 @@ public class StudentRequestDto {
     private String phone;
     private String email;
     private Gender gender;
+    private String password;
 }

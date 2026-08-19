@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
@@ -38,5 +39,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 //                OR s.phone LIKE %:q%
 //            """, nativeQuery = true)
 //    List<Student> searchStudentsGlobally(@Param("q") String q);
+
+    Optional<Student> findByEmail(String email);
+
 
 }

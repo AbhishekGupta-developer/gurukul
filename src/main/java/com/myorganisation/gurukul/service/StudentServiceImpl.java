@@ -11,6 +11,7 @@ import com.myorganisation.gurukul.repository.StudentRepository;
 import com.myorganisation.gurukul.repository.VehicleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -18,6 +19,9 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -176,6 +180,7 @@ public class StudentServiceImpl implements StudentService {
         student.setPhone(studentRequestDto.getPhone());
         student.setEmail(studentRequestDto.getEmail());
         student.setGender(studentRequestDto.getGender());
+        student.setPassword(passwordEncoder.encode(studentRequestDto.getPassword()));
 
         return student;
     }
