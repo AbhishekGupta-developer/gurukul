@@ -1,7 +1,7 @@
 package com.myorganisation.gurukul.entity;
 
 import com.myorganisation.gurukul.enums.Gender;
-import com.myorganisation.gurukul.enums.UserRole;
+import com.myorganisation.gurukul.enums.StudentRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
@@ -37,7 +37,7 @@ public class Student implements UserDetails {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private final UserRole role = UserRole.STUDENT;
+    private StudentRole role;
 
     private String password;
 
@@ -60,7 +60,7 @@ public class Student implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

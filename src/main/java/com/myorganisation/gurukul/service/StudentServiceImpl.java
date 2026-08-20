@@ -1,12 +1,15 @@
 package com.myorganisation.gurukul.service;
 
 import com.myorganisation.gurukul.dto.request.StudentRequestDto;
+import com.myorganisation.gurukul.dto.response.CourseResponseDto;
 import com.myorganisation.gurukul.dto.response.GenericResponseDto;
 import com.myorganisation.gurukul.dto.response.StudentResponseDto;
 import com.myorganisation.gurukul.entity.Account;
+import com.myorganisation.gurukul.entity.Course;
 import com.myorganisation.gurukul.entity.Student;
 import com.myorganisation.gurukul.entity.Vehicle;
 import com.myorganisation.gurukul.exception.StudentNotFoundException;
+import com.myorganisation.gurukul.repository.CourseRepository;
 import com.myorganisation.gurukul.repository.StudentRepository;
 import com.myorganisation.gurukul.repository.VehicleRepository;
 import jakarta.transaction.Transactional;
@@ -14,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -28,6 +30,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Override
     @Transactional
@@ -176,11 +181,23 @@ public class StudentServiceImpl implements StudentService {
     // Map StudentRequestDto to Student
     private Student mapStudentRequestDtoToStudent(Student student, StudentRequestDto studentRequestDto) {
         student.setName(studentRequestDto.getName());
-//        student.setCourse(studentRequestDto.getCourse());
         student.setPhone(studentRequestDto.getPhone());
         student.setEmail(studentRequestDto.getEmail());
         student.setGender(studentRequestDto.getGender());
+        student.setRole(studentRequestDto.getRole());
         student.setPassword(passwordEncoder.encode(studentRequestDto.getPassword()));
+
+
+        Set<Course> courses = new HashSet<>();
+
+        for(Long courseId : studentRequestDto.getCourseIds()) {
+            Course course = courseRepository.findById(courseId).orElse(null);
+            if(course != null) {
+                courses.add(course);
+            }
+        }
+
+        student.setCourses(courses);
 
         return student;
     }
@@ -191,11 +208,17 @@ public class StudentServiceImpl implements StudentService {
 
         studentResponseDto.setId(student.getId());
         studentResponseDto.setName(student.getName());
-//        studentResponseDto.setCourse(student.getCourse());
         studentResponseDto.setPhone(student.getPhone());
         studentResponseDto.setEmail(student.getEmail());
         studentResponseDto.setGender(student.getGender());
+        studentResponseDto.setRole(student.getRole());
         studentResponseDto.setVehicles(student.getVehicles());
+
+        Set<CourseResponseDto> courses = new HashSet<>();
+        for(Course course :  student.getCourses()) {
+            courses.add(CourseServiceImpl.mapCourseToCourseResponseDto(course));
+        }
+        studentResponseDto.setCourses(courses);
 
         return studentResponseDto;
     }

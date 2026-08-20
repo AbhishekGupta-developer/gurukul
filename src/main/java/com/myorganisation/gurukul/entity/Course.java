@@ -1,5 +1,6 @@
 package com.myorganisation.gurukul.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +30,6 @@ public class Course {
     private Double fee;
 
     @ManyToMany(mappedBy = "courses")
+    @JsonIgnore
     private Set<Student> students = new HashSet<>();
 }

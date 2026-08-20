@@ -58,7 +58,7 @@ public class CourseServiceImpl implements CourseService {
     // helper methods
     // map Course entity to CourseResponse DTO
 
-    private CourseResponseDto mapCourseToCourseResponseDto(Course course) {
+    public static CourseResponseDto mapCourseToCourseResponseDto(Course course) {
         CourseResponseDto courseResponseDto = new CourseResponseDto();
 
         courseResponseDto.setId(course.getId());
